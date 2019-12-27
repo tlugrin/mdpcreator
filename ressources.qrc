@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="icon.ico">pics/MDPIcon.ico</file>
+        <file alias="high.jpg">pics/SecurityLevel_High.JPG</file>
+        <file alias="low.jpg">pics/SecurityLevel_Low.JPG</file>
+        <file alias="mid.jpg">pics/SecurityLevel_Midel.JPG</file>
+        <file alias="vhigh.jpg">pics/SecurityLevel_VeryHigh.JPG</file>
+        <file alias="icon.jpg">pics/MDPIcon.JPG</file>
+    </qresource>
+</RCC>
