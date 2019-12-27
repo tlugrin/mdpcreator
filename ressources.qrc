@@ -1,10 +1,18 @@
 <RCC>
     <qresource prefix="/">
         <file alias="icon.ico">pics/MDPIcon.ico</file>
-        <file alias="high.jpg">pics/SecurityLevel_High.JPG</file>
-        <file alias="low.jpg">pics/SecurityLevel_Low.JPG</file>
-        <file alias="mid.jpg">pics/SecurityLevel_Midel.JPG</file>
-        <file alias="vhigh.jpg">pics/SecurityLevel_VeryHigh.JPG</file>
         <file alias="icon.jpg">pics/MDPIcon.JPG</file>
+        <file alias="french_dict.txt">databases/Lexique</file>
+        <file alias="english_dict.txt">databases/EOWL</file>
+        <file alias="vhigh.png">pics/Heureux.png</file>
+        <file alias="mid.png">pics/Angoisse.png</file>
+        <file alias="high.png">pics/Content.png</file>
+        <file alias="vhigheasy.png">pics/TresHeureux.png</file>
+        <file alias="low.png">pics/Triste.png</file>
+        <file alias="abc.png">pics/abc.png</file>
+        <file alias="aB6.png">pics/aB6.png</file>
+        <file alias="aBc.png">pics/aBc.png</file>
+        <file alias="mot.png">pics/mot.png</file>
+        <file alias="ad6.png">pics/ad6.png</file>
     </qresource>
 </RCC>
