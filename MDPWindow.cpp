@@ -174,19 +174,35 @@ void MDPWindow::changeMode(int index)
 
 void MDPWindow::initialiseCharLists()
 {
-    QStringList chars;
-    chars <<"a"<<"b"<<"c"<<"d"<<"e"<<"f"<<"g"<<"h"<<"i"<<"j"<<"k"<<"l"<<"m"<<"n"<<"o"<<"p"<<"q"<<"r"<<"s"<<"t"<<"u"<<"v"<<"w"<<"x"<<"y"<<"z";
+    QStringList lower,upper,digit,special;
+    QChar a;
+
+    for (int i=33; i<128; i++) {
+        a = QChar(i);
+        switch (a.category()) {
+        case QChar::Letter_Lowercase:
+            lower.append(a);
+            break;
+        case QChar::Letter_Uppercase:
+            upper.append(a);
+            break;
+        case QChar::Number_DecimalDigit:
+            digit.append(a);
+            break;
+        case QChar::Other_Control:
+            break;
+        case QChar::Symbol_Modifier:
+            break;
+        default:
+            special.append(a);
+            break;
+        }
+    }
     charLists.clear();
-    charLists.push_back(chars);
-    chars.clear();
-    chars <<"A"<<"B"<<"C"<<"D"<<"E"<<"F"<<"G"<<"H"<<"I"<<"J"<<"K"<<"L"<<"M"<<"N"<<"O"<<"P"<<"Q"<<"R"<<"S"<<"T"<<"U"<<"V"<<"W"<<"X"<<"Y"<<"Z";
-    charLists.push_back(chars);
-    chars.clear();
-    chars <<"0"<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9";
-    charLists.push_back(chars);
-    chars.clear();
-    chars <<"°"<<"+"<<"*"<<"_"<<"%"<<"&"<<"/"<<"("<<")"<<"="<<"?"<<"!"<<""<<"@"<<"#"<<"<"<<">"<<","<<";"<<"."<<":"<<"-";
-    charLists.push_back(chars);
+    charLists.push_back(lower);
+    charLists.push_back(upper);
+    charLists.push_back(digit);
+    charLists.push_back(special);
 }
 
 unsigned int MDPWindow::countNumberOfWords(const QString &file) const{
