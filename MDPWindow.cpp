@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QRandomGenerator>
 
 MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
 {
@@ -89,9 +90,11 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
 void MDPWindow::generateMdp()
 {
     QString mdp;
+    QRandomGenerator* gen = QRandomGenerator::system();// uses /dev/urandom on Linux
     // password made of words
     if(mdpSecurity->currentIndex() == 4){
         QFile dict;
+        double unif=0;
         if(chooseFrench->isChecked()){
             dict.setFileName(":/french_dict.txt");
         }else{
@@ -101,7 +104,7 @@ void MDPWindow::generateMdp()
             QTextStream in(&dict);
             QVector<int> lines(mdpLength->value());
             for(int i=0; i<lines.size(); i++){
-                double unif = qrand()/double(RAND_MAX);
+                unif = gen->generateDouble();// draw a real in [0,1)
                 if(chooseFrench->isChecked()){
                     lines[i] = qCeil(unif*MAX_FRENCH);
                 }else{
@@ -128,9 +131,9 @@ void MDPWindow::generateMdp()
     }else{
         for(int i=0 ; i<mdpLength->value() ; ++i){
             int nb_classes  = mdpSecurity->currentIndex()+1;
-            int which_class = qrand() % nb_classes;
+            int which_class = gen->generate() % nb_classes;
             int nb_within = charLists[which_class].size();
-            int which_within = qrand() % nb_within;
+            int which_within = gen->generate() % nb_within;
             mdp.append(charLists[which_class][which_within]);
         }
     }
