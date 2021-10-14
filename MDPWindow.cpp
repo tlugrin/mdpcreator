@@ -92,22 +92,22 @@ void MDPWindow::generateMdp()
     QString mdp;
     QRandomGenerator* gen = QRandomGenerator::system();// uses /dev/urandom on Linux
     // password made of words
-    if(mdpSecurity->currentIndex() == 4){
+    if (mdpSecurity->currentIndex() == 4) {
         QFile dict;
         double unif=0;
-        if(chooseFrench->isChecked()){
+        if (chooseFrench->isChecked()) {
             dict.setFileName(":/french_dict.txt");
-        }else{
+        } else {
             dict.setFileName(":/english_dict.txt");
         }
-        if(dict.open(QFile::ReadOnly)){
+        if (dict.open(QFile::ReadOnly)) {
             QTextStream in(&dict);
             QVector<int> lines(mdpLength->value());
-            for(int i=0; i<lines.size(); i++){
+            for (int i=0; i<lines.size(); i++) {
                 unif = gen->generateDouble();// draw a real in [0,1)
-                if(chooseFrench->isChecked()){
+                if (chooseFrench->isChecked()) {
                     lines[i] = qCeil(unif*MAX_FRENCH);
-                }else{
+                } else {
                     lines[i] = qCeil(unif*MAX_ENGLISH);
                 }
             }
@@ -115,25 +115,27 @@ void MDPWindow::generateMdp()
             std::sort(lines_ord.begin(),lines_ord.end());//avoid multiple look-ups in database
             QStringList mots;
             int counter=0;
-            for(int i=0; i<lines_ord.size(); i++){
-                while(++counter<lines_ord[i] and !in.atEnd()){
+            for (int i=0; i<lines_ord.size(); i++) {
+                while (++counter<lines_ord[i] and !in.atEnd()) {
                     in.readLine();
                 }
                 mots << in.readLine();
             }
-            for(int i=0; i<lines.size(); i++){
+            for (int i=0; i<lines.size(); i++) {
                 mdp += " - " + mots[lines_ord.indexOf(lines[i])];
             }
             mdp.remove(0,3);
             dict.close();
         }
     // password made of random characters
-    }else{
-        for(int i=0 ; i<mdpLength->value() ; ++i){
-            int nb_classes  = mdpSecurity->currentIndex()+1;
-            int which_class = gen->generate() % nb_classes;
-            int nb_within = charLists[which_class].size();
-            int which_within = gen->generate() % nb_within;
+    } else {
+        for (int i=0; i<mdpLength->value(); ++i) {
+            unsigned int max_class = mdpSecurity->currentIndex();
+            unsigned int sample = gen->generate() % cumulativeListSize[max_class];
+            unsigned int which_class = findCharClass(sample);
+            unsigned int which_within = sample -
+                    cumulativeListSize[which_class] +
+                    charLists[which_class].size();
             mdp.append(charLists[which_class][which_within]);
         }
     }
@@ -179,6 +181,7 @@ void MDPWindow::initialiseCharLists()
 {
     QStringList lower,upper,digit,special;
     QChar a;
+    cumulativeListSize = QVector<unsigned int>(4, 0);
 
     for (int i=33; i<128; i++) {
         a = QChar(i);
@@ -206,9 +209,16 @@ void MDPWindow::initialiseCharLists()
     charLists.push_back(upper);
     charLists.push_back(digit);
     charLists.push_back(special);
+
+    for (int i=0; i<4; i++) {
+        cumulativeListSize[i] = charLists[i].size();
+        if (i > 0)
+            cumulativeListSize[i] += cumulativeListSize[i-1];
+    }
 }
 
-unsigned int MDPWindow::countNumberOfWords(const QString &file) const{
+unsigned int MDPWindow::countNumberOfWords(const QString &file) const
+{
     QFile ff(file);
     unsigned int counter=0;
     if(ff.open(QFile::ReadOnly)){
@@ -220,6 +230,15 @@ unsigned int MDPWindow::countNumberOfWords(const QString &file) const{
     }
     ff.close();
     return counter;
+}
+
+unsigned int MDPWindow::findCharClass(const unsigned int &i) const
+{
+    for (unsigned int j=0; j<3; j++) {
+        if (i < cumulativeListSize[j])
+            return j;
+    }
+    return 3;
 }
 
 void MDPWindow::initialiseMenuBar(){
