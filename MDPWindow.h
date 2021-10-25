@@ -21,6 +21,7 @@ class MDPWindow : public QMainWindow
 
     private:
         QVector<QStringList> charLists;
+        QVector<unsigned int> cumulativeListSize;
         QLabel* mdpSecurityLabel;
         QComboBox* mdpSecurity;
         QLabel* mdpLengthLabel;
@@ -42,6 +43,7 @@ class MDPWindow : public QMainWindow
         // help-functions at initialisation
         void initialiseCharLists();
         unsigned int countNumberOfWords(QString const &file) const;
+        unsigned int findCharClass(const unsigned int &i) const;
         void initialiseMenuBar();
 
     protected slots:
