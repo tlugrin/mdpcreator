@@ -41,7 +41,9 @@
 # Diese Lizenz lässt die Urheberpersönlichkeitsrechte unberührt.
 # -------------------------------------------------------------
 #
-# Modifications to the original file (Thomas Lugrin):
-# * conversion to UTF-8 encoding
-# * chopping off frequency and gramatical information
+# Modifications to the original file (Thomas Lugrin 2021):
+# * convert to UTF-8 encoding
+# * chop off frequency and gramatical information
+# * remove duplicate entries
+
 
