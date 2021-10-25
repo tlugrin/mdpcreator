@@ -2,6 +2,10 @@ MDPCreator NEWS file
 --------------------
 --------------------
 
+- v2.2 (25.10.2021)
+    + Use crypto-safe random number generator
+    + Remove bias when drawing from different character classes
+
 - v2.1 (30.12.2017)
     + Add 'About...' menu
     + Draw pictures for 'Générer!' button
