@@ -1,6 +1,5 @@
 #include <QApplication>
 #include "MDPWindow.h"
-#include <iostream>
 
 int main(int argc, char* argv[])
 {
