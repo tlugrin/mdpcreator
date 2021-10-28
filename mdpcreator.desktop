@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=2.1
+Type=Application
+Terminal=false
+Name=MDPCreator
+Exec=/usr/bin/mdpcreator
+Comment=Password Generator
+Icon=/usr/share/pixmaps/MDPIcon.ico
+StartupNotify=false
+Encoding=UTF-8
+Categories=Utility;Security;Qt

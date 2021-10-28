@@ -1,10 +1,4 @@
-Name: mdpcreator
-Maintainer: Thomas Lugrin <thomas dot lugrin at alumni dot epfl dot ch>
-Files: debian/*
-Copyright: 2016-2021 Thomas Lugrin <thomas dot lugrin at alumni dot epfl dot ch>
-License: GPL-2+
-
-License: GPL-2+
+GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or

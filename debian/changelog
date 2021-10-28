@@ -2,10 +2,10 @@ mdpcreator (2.1-0ubuntu1) xenial; urgency=low
 
   * New upstream release
 
- -- Thomas Lugrin <35079233+Dsobiblu@users.noreply.github.com>  Mon, 01 Jan 2018 22:34:46 +0100
+ -- Thomas Lugrin <thomas dot lugrin at alumni dot epfl dot ch>  Mon, 01 Jan 2018 22:34:46 +0100
 
 mdpcreator (0.1-0ubuntu1) trusty; urgency=low
 
   * Initial release
 
- -- Thomas Lugrin <35079233+Dsobiblu@users.noreply.github.com>  Sun, 10 Apr 2016 19:06:12 +0100
+ -- Thomas Lugrin <thomas dot lugrin at alumni dot epfl dot ch>  Sun, 10 Apr 2016 19:06:12 +0100
