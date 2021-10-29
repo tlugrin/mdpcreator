@@ -33,12 +33,12 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     mdpSecurityLabel = new QLabel("Niveau de sécurité :", this);
     mdpSecurity = new QComboBox(this);
     QIcon lowIcon(":/low.png");
-    QIcon midelIcon(":/mid.png");
+    QIcon midIcon(":/mid.png");
     QIcon highIcon(":/high.png");
     QIcon veryHighIcon(":/vhigh.png");
     QIcon veryHighEasyIcon(":/vhigheasy.png");
     mdpSecurity->addItem(lowIcon, "Normal");
-    mdpSecurity->addItem(midelIcon, "Moyen");
+    mdpSecurity->addItem(midIcon, "Moyen");
     mdpSecurity->addItem(highIcon, "Élevé");
     mdpSecurity->addItem(veryHighIcon, "Très élevé");
     mdpSecurity->addItem(veryHighEasyIcon, "Très élevé ET facile à retenir");
@@ -75,12 +75,30 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     resultingMdpLayout->addWidget(resultingMdp);
     resultingMdpLayout->addWidget(resultingMdpEdit);
 
+    // infos on security level of generated password
+    QFrame* infosFrame = new QFrame;
+    infosFrame->setFrameShape(QFrame::Panel);
+    infosFrame->setFrameShadow(QFrame::Sunken);
+    infosFrame->setLineWidth(2);
+    infosFrame->setMidLineWidth(2);
+    QGridLayout* infosSplitLayout = new QGridLayout;
+    resultingAttempts = new QLabel("Nombre de tentatives:");
+    resultingTimeToBreak = new QLabel("Durée d'une attaque:");
+    resultingBitEntropy = new QLabel("Entropie:");
+    resultingAssessment = new QLabel("Qualité:");
+    infosSplitLayout->addWidget(resultingAttempts,0,0,1,1);
+    infosSplitLayout->addWidget(resultingTimeToBreak,1,0,1,1);
+    infosSplitLayout->addWidget(resultingBitEntropy,0,1,1,1);
+    infosSplitLayout->addWidget(resultingAssessment,1,1,1,1);
+    infosFrame->setLayout(infosSplitLayout);
+
     QGridLayout* generalLayout = new QGridLayout;
     generalLayout->addLayout(securityLayout,0,0,1,2);
     generalLayout->addLayout(lengthLayout,1,0,1,1,Qt::AlignTop);
     generalLayout->addWidget(mdpLanguage,1,1,1,1);
     generalLayout->addWidget(generateMdpButton,0,2,2,1);
     generalLayout->addLayout(resultingMdpLayout,2,0,1,3);
+    generalLayout->addWidget(infosFrame,3,0,1,3);
     widget->setLayout(generalLayout);
 
     connect(generateMdpButton,SIGNAL(clicked()),this,SLOT(generateMdp()));

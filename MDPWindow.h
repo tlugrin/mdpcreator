@@ -32,6 +32,10 @@ class MDPWindow : public QMainWindow
         QPushButton* generateMdpButton;
         QLabel* resultingMdp;
         QLineEdit* resultingMdpEdit;
+        QLabel* resultingAttempts;
+        QLabel* resultingTimeToBreak;
+        QLabel* resultingBitEntropy;
+        QLabel* resultingAssessment;
         // number of lines in French and English databases
         unsigned int MAX_FRENCH;
         unsigned int MAX_ENGLISH;
