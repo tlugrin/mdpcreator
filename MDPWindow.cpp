@@ -20,6 +20,7 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     initialiseCharLists();
     MAX_FRENCH = countNumberOfWords(":/french_dict.txt");
     MAX_ENGLISH = countNumberOfWords(":/english_dict.txt");
+    MAX_GERMAN = countNumberOfWords(":/german_dict.txt");
 
     this->setWindowTitle("MDPCreator 2.2");
     this->setWindowIcon(QIcon(":/icon.jpg"));
@@ -57,10 +58,12 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     mdpLanguage = new QGroupBox("Langue");
     chooseFrench  = new QRadioButton("Français");
     chooseEnglish = new QRadioButton("Anglais");
+    chooseGerman = new QRadioButton("Allemand");
     chooseFrench->setChecked(true);
     QVBoxLayout *languageLayout = new QVBoxLayout;
     languageLayout->addWidget(chooseFrench);
     languageLayout->addWidget(chooseEnglish);
+    languageLayout->addWidget(chooseGerman);
     mdpLanguage->setLayout(languageLayout);
 
     // button + text field: generate and see password
@@ -97,8 +100,10 @@ void MDPWindow::generateMdp()
         double unif=0;
         if (chooseFrench->isChecked()) {
             dict.setFileName(":/french_dict.txt");
-        } else {
+        } else if (chooseEnglish->isChecked()){
             dict.setFileName(":/english_dict.txt");
+        } else {
+            dict.setFileName(":/german_dict.txt");
         }
         if (dict.open(QFile::ReadOnly)) {
             QTextStream in(&dict);
@@ -253,17 +258,20 @@ void MDPWindow::initialiseMenuBar(){
 }
 
 void MDPWindow::aboutMDPCreator(){
-    QString title = "MDPCreator version 2.2";
-    QString text  = "<strong>MDPCreator version 2.2</strong><br/><br/>"
+QString title = "MDPCreator version 2.2";
+QString text  = "<strong>MDPCreator version 2.2</strong><br/><br/>"
             "Imaginé et créé par Thomas Lugrin © 2014-2021 GPL-2+<br/><br/>"
             "Les figures noir et blanc proviennent de <em>Xinh Studio</em> et sont sous la licence<br/>"
             "<a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported Licence</a>.<br/><br/>"
-            "Les bases de données de mots français et anglais proviennent de"
-            "<ul><li><a href='http://www.lexique.org'>Lexique 3.82</a> et</li>"
-            "<li><a href='http://dreamsteep.com/projects/the-english-open-word-list.html'>English Open Word List</a> "
-            "basé sur le <a href='http://www.crosswordman.com/wordlist.html'>UK Advanced Cryptics Dictionary</li></ul>"
-            "et sont respectivement sous la licence <a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported Licence</a> "
-            "et une licence de logiciel libre disponible dans les sources et <a href='http://dreamsteep.com/projects/the-english-open-word-list.html'>en ligne</a>.";
+            "Les bases de données de mots français, anglais et allemands proviennent de"
+            "<ul><li><a href='http://www.lexique.org'>Lexique 3.82</a>,</li>"
+            "<li><a href='https://www.diginoodles.com/projects/eowl'>English Open Word List</a> "
+            "basé sur le <a href='http://www.crosswordman.com/wordlist.html'>UK Advanced Cryptics Dictionary, et</li>"
+            "<li><a href='http://www.ids-mannheim.de/kl/derewo/'>Korpusbasierte Grundformenliste DeReWo</a>,</li></ul>"
+            "et sont respectivement sous la licence <a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported Licence</a>, "
+            "une licence de logiciel libre disponible <a href='https://www.diginoodles.com/projects/eowl'>en ligne</a>, et "
+            "la licence <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.de'>Creative Commons (by-nc)</a>.<br/><br/>"
+            "Les licences respectives sont également disponibles dans les sources de ce programme.";
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(title);
     msgBox.setText(text);

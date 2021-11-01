@@ -1,0 +1,49 @@
+# (zu zitieren als:)
+# Korpusbasierte Grundformenliste DeReWo, 
+# v-ww-bll-250000g-2011-12-31-0.1, mit Benutzerdokumentation,
+# http://www.ids-mannheim.de/kl/derewo/,
+# © Institut für Deutsche Sprache, 
+# Programmbereich Korpuslinguistik, 
+# Mannheim, Deutschland, 2011.
+# 
+# Die Grundformenliste, die Dokumentation und die 
+# allgemeinen Anmerkungen zu DeReWo bilden eine Einheit.
+# Diese Lizenzbestimmung darf aus keinem der Dokumente 
+# entfernt werden.
+# 
+# Dieses Werk ist unter die Creative Commons-Lizenz 
+# (by-nc) gestellt 
+# (http://creativecommons.org/licenses/by-nc/3.0/deed.de).
+# 
+# Namensnennung - Keine kommerzielle Nutzung 3.0 Unported
+# 
+# Sie dürfen:
+# - das Werk vervielfältigen, verbreiten und öffentlich 
+#   zugänglich machen 
+# - Bearbeitungen des Werkes anfertigen 
+# 
+# Zu den folgenden Bedingungen:
+# - Namensnennung. Sie müssen den Namen des Autors/
+#   Rechteinhabers in der von ihm festgelegten Weise nennen 
+#   (wodurch aber nicht der Eindruck entstehen darf, Sie 
+#    oder die Nutzung des Werkes durch Sie würden entlohnt). 
+# - Keine kommerzielle Nutzung. Dieses Werk darf nicht für 
+#   kommerzielle Zwecke verwendet werden. 
+# 
+# Im Falle einer Verbreitung müssen Sie anderen die 
+# Lizenzbedingungen, unter welche dieses Werk fällt, 
+# mitteilen. Am Einfachsten ist es, einen Link auf die 
+# o.g. Seite einzubinden. 
+# 
+# Jede der vorgenannten Bedingungen kann aufgehoben werden, 
+# sofern Sie die Einwilligung des Rechteinhabers dazu erhalten. 
+# 
+# Diese Lizenz lässt die Urheberpersönlichkeitsrechte unberührt.
+# -------------------------------------------------------------
+#
+# Modifications to the original file (Thomas Lugrin 2021):
+# * convert to UTF-8 encoding
+# * chop off frequency and gramatical information
+# * remove duplicate entries
+
+
