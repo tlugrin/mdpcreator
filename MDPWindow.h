@@ -14,6 +14,7 @@
 #include <QStringList>
 #include <QMenu>
 #include <QAction>
+#include <QtMath>
 
 class MDPWindow : public QMainWindow
 {
@@ -36,6 +37,12 @@ class MDPWindow : public QMainWindow
         QLabel* resultingTimeToBreak;
         QLabel* resultingBitEntropy;
         QLabel* resultingAssessment;
+        const QString resultingAttemptsText="Nombre moyen de tentatives : ";
+        const QString resultingTimeToBreakText="Durée moyenne d'une attaque : ";
+        const QString resultingBitEntropyText="Entropie : ";
+        const QString resultingAssessmentText="Qualité : ";
+        // number of passwords an attacker could supposedly try per second
+        const unsigned int PASSWORDS_PER_SEC=qPow(10,9);
         // number of lines in French and English databases
         unsigned int MAX_FRENCH;
         unsigned int MAX_ENGLISH;
@@ -52,6 +59,7 @@ class MDPWindow : public QMainWindow
 
     protected slots:
         void generateMdp();
+        void updateSecurityInfos();
         void changeMode(int index);
         // menu actions
         void aboutMDPCreator();
