@@ -22,7 +22,7 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     MAX_ENGLISH = countNumberOfWords(":/english_dict.txt");
     MAX_GERMAN = countNumberOfWords(":/german_dict.txt");
 
-    this->setWindowTitle("MDPCreator 2.1");
+    this->setWindowTitle("MDPCreator 2.2");
     this->setWindowIcon(QIcon(":/icon.jpg"));
     this->setMinimumSize(800,250);
     QWidget* widget = new QWidget;
@@ -258,8 +258,8 @@ void MDPWindow::initialiseMenuBar(){
 }
 
 void MDPWindow::aboutMDPCreator(){
-    QString title = "MDPCreator version 2.1";
-    QString text  = "<strong>MDPCreator version 2.1</strong><br/><br/>"
+QString title = "MDPCreator version 2.2";
+QString text  = "<strong>MDPCreator version 2.2</strong><br/><br/>"
             "Imaginé et créé par Thomas Lugrin © 2014-2021 GPL-2+<br/><br/>"
             "Les figures noir et blanc proviennent de <em>Xinh Studio</em> et sont sous la licence<br/>"
             "<a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported Licence</a>.<br/><br/>"
