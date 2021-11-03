@@ -31,18 +31,18 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
 
     // drop-down list: 'level of security'
     QVBoxLayout* securityLayout = new QVBoxLayout;
-    mdpSecurityLabel = new QLabel("Niveau de sécurité :", this);
+    mdpSecurityLabel = new QLabel("Jeu de caractères/dictionnaire :", this);
     mdpSecurity = new QComboBox(this);
     QIcon lowIcon(":/low.png");
-    QIcon midelIcon(":/mid.png");
+    QIcon midIcon(":/mid.png");
     QIcon highIcon(":/high.png");
     QIcon veryHighIcon(":/vhigh.png");
     QIcon veryHighEasyIcon(":/vhigheasy.png");
-    mdpSecurity->addItem(lowIcon, "Normal");
-    mdpSecurity->addItem(midelIcon, "Moyen");
-    mdpSecurity->addItem(highIcon, "Élevé");
-    mdpSecurity->addItem(veryHighIcon, "Très élevé");
-    mdpSecurity->addItem(veryHighEasyIcon, "Très élevé ET facile à retenir");
+    mdpSecurity->addItem(lowIcon, "Restreint");
+    mdpSecurity->addItem(midIcon, "Moyen");
+    mdpSecurity->addItem(highIcon, "Grand");
+    mdpSecurity->addItem(veryHighIcon, "Très grand");
+    mdpSecurity->addItem(veryHighEasyIcon, "Immense et facile à retenir");
     mdpSecurity->setIconSize(QSize(48,48));
     securityLayout->addWidget(mdpSecurityLabel);
     securityLayout->addWidget(mdpSecurity);
@@ -66,7 +66,7 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     languageLayout->addWidget(chooseGerman);
     mdpLanguage->setLayout(languageLayout);
 
-    // button + text field: generate and see password
+    // button + text field: generate and view password
     generateMdpButton = new QPushButton("Générer !");
     generateMdpButton->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Expanding);
     changeMode(0);
@@ -78,15 +78,44 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     resultingMdpLayout->addWidget(resultingMdp);
     resultingMdpLayout->addWidget(resultingMdpEdit);
 
+    // infos on security level of generated password
+    QFrame* infosFrame = new QFrame;
+    infosFrame->setFrameShape(QFrame::Panel);
+    infosFrame->setFrameShadow(QFrame::Sunken);
+    infosFrame->setLineWidth(2);
+    infosFrame->setMidLineWidth(2);
+    QGridLayout* infosSplitLayout = new QGridLayout;
+    // fixed labels and dynamically updated infos
+    QLabel* attemptsLabel = new QLabel("Nombre moyen de tentatives : ");
+    QLabel* timeToBreakLabel = new QLabel("Durée moyenne d'une attaque : ");
+    QLabel* bitEntropyLabel = new QLabel("Entropie : ");
+    QLabel* assessmentLabel = new QLabel("Qualité : ");
+    resultingAttempts = new QLabel("     ");
+    resultingTimeToBreak = new QLabel("     ");
+    resultingBitEntropy = new QLabel("");
+    resultingAssessment = new QLabel("");
+    infosSplitLayout->addWidget(attemptsLabel,0,0);
+    infosSplitLayout->addWidget(resultingAttempts,0,1);
+    infosSplitLayout->addWidget(timeToBreakLabel,1,0);
+    infosSplitLayout->addWidget(resultingTimeToBreak,1,1);
+    infosSplitLayout->addWidget(bitEntropyLabel,0,3);
+    infosSplitLayout->addWidget(resultingBitEntropy,0,4);
+    infosSplitLayout->addWidget(assessmentLabel,1,3);
+    infosSplitLayout->addWidget(resultingAssessment,1,4);
+    infosSplitLayout->setColumnMinimumWidth(2,50);
+    infosFrame->setLayout(infosSplitLayout);
+
     QGridLayout* generalLayout = new QGridLayout;
     generalLayout->addLayout(securityLayout,0,0,1,2);
     generalLayout->addLayout(lengthLayout,1,0,1,1,Qt::AlignTop);
     generalLayout->addWidget(mdpLanguage,1,1,1,1);
     generalLayout->addWidget(generateMdpButton,0,2,2,1);
     generalLayout->addLayout(resultingMdpLayout,2,0,1,3);
+    generalLayout->addWidget(infosFrame,3,0,1,3);
     widget->setLayout(generalLayout);
 
     connect(generateMdpButton,SIGNAL(clicked()),this,SLOT(generateMdp()));
+    connect(generateMdpButton,SIGNAL(clicked()),this,SLOT(updateSecurityInfos()));
     connect(mdpSecurity,SIGNAL(currentIndexChanged(int)),this,SLOT(changeMode(int)));
 }
 
@@ -108,13 +137,15 @@ void MDPWindow::generateMdp()
         if (dict.open(QFile::ReadOnly)) {
             QTextStream in(&dict);
             QVector<int> lines(mdpLength->value());
+            unsigned int max_words;
+            if (chooseFrench->isChecked()) {
+                max_words = MAX_FRENCH;
+            } else {
+                max_words = MAX_ENGLISH;
+            }
             for (int i=0; i<lines.size(); i++) {
                 unif = gen->generateDouble();// draw a real in [0,1)
-                if (chooseFrench->isChecked()) {
-                    lines[i] = qCeil(unif*MAX_FRENCH);
-                } else {
-                    lines[i] = qCeil(unif*MAX_ENGLISH);
-                }
+                lines[i] = qCeil(unif*max_words);
             }
             QVector<int> lines_ord(lines);
             std::sort(lines_ord.begin(),lines_ord.end());//avoid multiple look-ups in database
@@ -134,17 +165,67 @@ void MDPWindow::generateMdp()
         }
     // password made of random characters
     } else {
+        unsigned int sample, which_class, which_within;
+        unsigned int max_class = mdpSecurity->currentIndex();
         for (int i=0; i<mdpLength->value(); ++i) {
-            unsigned int max_class = mdpSecurity->currentIndex();
-            unsigned int sample = gen->generate() % cumulativeListSize[max_class];
-            unsigned int which_class = findCharClass(sample);
-            unsigned int which_within = sample -
-                    cumulativeListSize[which_class] +
+            sample = gen->generate() % cumulativeListSize[max_class];
+            which_class = findCharClass(sample);
+            which_within = sample - cumulativeListSize[which_class] +
                     charLists[which_class].size();
             mdp.append(charLists[which_class][which_within]);
         }
     }
     resultingMdpEdit->setText(mdp);
+}
+
+void MDPWindow::updateSecurityInfos()
+{
+    unsigned int classSize;
+    if (mdpSecurity->currentIndex() == 4) {
+        if (chooseFrench->isChecked()) {
+            classSize = MAX_FRENCH;
+        } else {
+            classSize = MAX_ENGLISH;
+        }
+    } else {
+        classSize = cumulativeListSize[mdpSecurity->currentIndex()];
+    }
+    double nAttempts = qPow(classSize,mdpLength->value())/2;// cf. birthday paradox
+    int entropy = qFloor(log2(nAttempts));
+    double breaktime = nAttempts / PASSWORDS_PER_SEC;
+    QString timeUnit="secondes";
+    QString assessment="excellente";
+    const double year = 365 * 24 * 60 * 60;
+    if (breaktime < year) {
+        assessment = "basse";
+        if (breaktime > 24 * 60 * 60) {
+            breaktime /= 24 * 60 * 60;
+            timeUnit = "jours";
+        } else if (breaktime > 60 * 60) {
+            breaktime /= 60 * 60;
+            timeUnit = "heures";
+        } else if (breaktime > 60) {
+            breaktime /= 60;
+            timeUnit = "minutes";
+        }
+    } else if (breaktime < 1000*year) {
+        assessment = "bonne";
+        breaktime = breaktime / year;
+        timeUnit = "années";
+    } else {
+        breaktime = breaktime / year;
+        timeUnit = "années";
+    }
+
+    // convert 'e' notation to '×10' notation and remove leading zeroes in exponent
+    QString nAttemptsTxt = QLocale(QLocale::French).toString(nAttempts,'g',2);
+    nAttemptsTxt.replace(QRegExp("e\\+0?([1-9][0-9]*)$"), "×10<sup>\\1</sup>");
+    resultingAttempts->setText(nAttemptsTxt);
+    QString breaktimeMsg = (timeUnit == "années") & (breaktime > 1e6) ?
+                "> 1 mio" : QLocale(QLocale::French).toString((int)breaktime);
+    resultingTimeToBreak->setText(breaktimeMsg + " " + timeUnit);
+    resultingBitEntropy->setText(QString::number(entropy) + " bits");
+    resultingAssessment->setText(assessment);
 }
 
 void MDPWindow::changeMode(int index)
