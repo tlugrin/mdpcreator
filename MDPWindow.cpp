@@ -140,8 +140,10 @@ void MDPWindow::generateMdp()
             unsigned int max_words;
             if (chooseFrench->isChecked()) {
                 max_words = MAX_FRENCH;
-            } else {
+            } else if (chooseEnglish->isChecked()) {
                 max_words = MAX_ENGLISH;
+            } else {
+                max_words = MAX_GERMAN;
             }
             for (int i=0; i<lines.size(); i++) {
                 unif = gen->generateDouble();// draw a real in [0,1)
@@ -184,8 +186,10 @@ void MDPWindow::updateSecurityInfos()
     if (mdpSecurity->currentIndex() == 4) {
         if (chooseFrench->isChecked()) {
             classSize = MAX_FRENCH;
-        } else {
+        } else if (chooseEnglish->isChecked()) {
             classSize = MAX_ENGLISH;
+        } else {
+            classSize = MAX_GERMAN;
         }
     } else {
         classSize = cumulativeListSize[mdpSecurity->currentIndex()];
