@@ -1,16 +1,17 @@
 Source: mdpcreator
 Section: misc
 Priority: optional
-Maintainer: Thomas Lugrin <35079233+Dsobiblu@users.noreply.github.com>
-Build-Depends: debhelper (>= 9), qtbase5-dev, qtbase5-dev-tools, qt5-qmake
-Standards-Version: 3.9.4
+Maintainer: Thomas Lugrin <thomas dot lugrin at alumni dot epfl dot ch>
+Build-Depends: debhelper-compat (= 13), qtbase5-dev, qtbase5-dev-tools, qt5-qmake
+Standards-Version: 4.5.1
 
 Package: mdpcreator
 Architecture: any
 Depends: libqt5gui5, libqt5widgets5, libqt5core5a, ${shlibs:Depends}, ${misc:Depends}
 Description: Password generator programme.
  password generator application based on Qt and C++.
-  It is easy to use and effective. It has a few options
-  for password strength and length.
-  It is licensed under GNU General Public License Version 2.
+  An easy-to-use and effective application, with a few options
+  for password strength and length. Information on password
+  strength, entropy and estimated time to break.
+  It is licensed under the GNU General Public License Version 2.
   See LICENSE file for more information.
