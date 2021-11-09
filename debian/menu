@@ -1,7 +1,0 @@
-?package(gedit):\
-    needs="x11"\
-    section="Applications/Security"\
-    title="MDPCreator"\
-    longtitle="Secure password generator"\
-    icon="/usr/share/pixmaps/MDPIcon.ico"\
-    command="/usr/bin/mdpcreator"
