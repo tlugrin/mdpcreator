@@ -14,5 +14,6 @@
         <file alias="aBc.png">pics/aBc.png</file>
         <file alias="mot.png">pics/mot.png</file>
         <file alias="ad6.png">pics/ad6.png</file>
+        <file alias="german_dict.txt">databases/derewo.txt</file>
     </qresource>
 </RCC>

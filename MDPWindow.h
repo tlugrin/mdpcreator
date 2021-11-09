@@ -14,6 +14,7 @@
 #include <QStringList>
 #include <QMenu>
 #include <QAction>
+#include <QtMath>
 
 class MDPWindow : public QMainWindow
 {
@@ -29,12 +30,20 @@ class MDPWindow : public QMainWindow
         QGroupBox* mdpLanguage;
         QRadioButton* chooseFrench;
         QRadioButton* chooseEnglish;
+        QRadioButton* chooseGerman;
         QPushButton* generateMdpButton;
         QLabel* resultingMdp;
         QLineEdit* resultingMdpEdit;
-        // number of lines in French and English databases
+        QLabel* resultingAttempts;
+        QLabel* resultingTimeToBreak;
+        QLabel* resultingBitEntropy;
+        QLabel* resultingAssessment;
+        // number of passwords an attacker could supposedly try per second
+        const unsigned int PASSWORDS_PER_SEC=qPow(10,12);
+        // number of lines in French, English and German wordlists
         unsigned int MAX_FRENCH;
         unsigned int MAX_ENGLISH;
+        unsigned int MAX_GERMAN;
         // menu and sub-menus
         QMenu* aboutMenu;
         QAction* aboutMDPCreatorAct;
@@ -48,6 +57,7 @@ class MDPWindow : public QMainWindow
 
     protected slots:
         void generateMdp();
+        void updateSecurityInfos();
         void changeMode(int index);
         // menu actions
         void aboutMDPCreator();
