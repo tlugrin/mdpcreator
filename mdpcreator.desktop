@@ -5,6 +5,5 @@ Terminal=false
 Name=MDPCreator
 Comment=Password Generator
 Icon=pics/MDPIcon.ico
-StartupNotify=false
-Encoding=UTF-8
+Exec=mdpcreator
 Categories=Utility;Security;Qt
