@@ -1,16 +1,16 @@
-mdpcreator (2.2-0ubuntu1) focal; urgency=low
+mdpcreator (2.2-1) focal; urgency=low
 
   * New upstream release
 
- -- Thomas Lugrin <thomas dot lugrin at alumni dot epfl dot ch> Mon, 08 Nov 20:05:00 +0100
+ -- Thomas Lugrin <thomas dot lugrin at alumni dot epfl dot ch>  Mon, 08 Nov 2021 20:05:00 +0100
 
-mdpcreator (2.1-0ubuntu1) xenial; urgency=low
+mdpcreator (2.1-1) xenial; urgency=low
 
   * New upstream release
 
  -- Thomas Lugrin <thomas dot lugrin at alumni dot epfl dot ch>  Mon, 01 Jan 2018 22:34:46 +0100
 
-mdpcreator (0.1-0ubuntu1) trusty; urgency=low
+mdpcreator (0.1-1) trusty; urgency=low
 
   * Initial release
 
