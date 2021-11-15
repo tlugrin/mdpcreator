@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file alias="icon.ico">pics/MDPIcon.ico</file>
         <file alias="icon.jpg">pics/MDPIcon.JPG</file>
-        <file alias="french_dict.txt">databases/Lexique</file>
         <file alias="english_dict.txt">databases/EOWL</file>
         <file alias="vhigh.png">pics/Heureux.png</file>
         <file alias="mid.png">pics/Angoisse.png</file>
@@ -15,5 +14,6 @@
         <file alias="mot.png">pics/mot.png</file>
         <file alias="ad6.png">pics/ad6.png</file>
         <file alias="german_dict.txt">databases/derewo.txt</file>
+        <file alias="french_dict.txt">databases/Lexique383</file>
     </qresource>
 </RCC>

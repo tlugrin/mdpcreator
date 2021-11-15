@@ -349,14 +349,19 @@ QString text  = "<strong>MDPCreator version 2.2</strong><br/><br/>"
             "Les figures noir et blanc proviennent de <em>Xinh Studio</em> et sont sous la licence<br/>"
             "<a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported Licence</a>.<br/><br/>"
             "Les bases de données de mots français, anglais et allemands proviennent de"
-            "<ul><li><a href='http://www.lexique.org'>Lexique 3.82</a>,</li>"
+            "<ul><li><a href='http://www.lexique.org'>Lexique 3.83</a>,</li>"
             "<li><a href='https://www.diginoodles.com/projects/eowl'>English Open Word List</a> "
             "basé sur le <a href='http://www.crosswordman.com/wordlist.html'>UK Advanced Cryptics Dictionary, et</li>"
             "<li><a href='http://www.ids-mannheim.de/kl/derewo/'>Korpusbasierte Grundformenliste DeReWo</a>,</li></ul>"
-            "et sont respectivement sous la licence <a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported Licence</a>, "
+            "et sont respectivement sous la licence <a href='https://creativecommons.org/licenses/by-sa/4.0/'>"
+            "Creative Commons Attribution-ShareAlike 4.0 International</a>, "
             "une licence de logiciel libre disponible <a href='https://www.diginoodles.com/projects/eowl'>en ligne</a>, et "
-            "la licence <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.de'>Creative Commons (by-nc)</a>.<br/><br/>"
-            "Les licences respectives sont également disponibles dans les sources de ce programme.";
+            "la licence <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.de'>"
+            "Attribution-NonCommercial 3.0 Unported</a>.<br/><br/>"
+            "Les licences respectives sont également disponibles dans les sources de ce programme.<br/><br/>"
+            "Les listes francophone et germanophone originales ont été modifiées en les restreignant "
+            "aux seules listes de mots, sans les informations supplémentaires (catégorie grammaticale, fréquence) ; "
+            "les doublons apparaissant après cette manipulation ont été éliminés.";
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(title);
     msgBox.setText(text);
