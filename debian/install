@@ -1,1 +1,3 @@
 ../bin/mdpcreator usr/bin
+mdpcreator.desktop usr/share/applications
+pics/MDPIcon.ico usr/share/pixmaps
