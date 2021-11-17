@@ -1,3 +1,24 @@
+/*
+ *  MDPcreator : Password generator utility
+ *  Copyright (C) 2016-2021   Thomas Lugrin
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>
+ *
+ *  On Debian systems, the complete text of the GNU General
+ *  Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+ */
+
 #include "MDPWindow.h"
 #include <cstdlib>
 #include <QTime>
@@ -235,10 +256,13 @@ void MDPWindow::updateSecurityInfos()
 void MDPWindow::changeMode(int index)
 {
     if(index < 4){
-        mdpLength->setSuffix(" caractères");
-        mdpLength->setRange(5,35);
-        mdpLength->setValue(7);
-        mdpLanguage->setDisabled(true);
+        // avoid resetting spinbox when changing between similar options
+        if (mdpLanguage->isEnabled()) {
+            mdpLength->setSuffix(" caractères");
+            mdpLength->setRange(5,35);
+            mdpLength->setValue(10);
+            mdpLanguage->setDisabled(true);
+        }
         if(index == 0){
             generateMdpButton->setStyleSheet("QPushButton{ background-image: url(:/abc.png);"
                                              "background-position: center center;"
@@ -259,7 +283,7 @@ void MDPWindow::changeMode(int index)
     }else{
         mdpLength->setSuffix(" mots");
         mdpLength->setRange(3,8);
-        mdpLength->setValue(3);
+        mdpLength->setValue(4);
         mdpLanguage->setEnabled(true);
         generateMdpButton->setStyleSheet("QPushButton{ background-image: url(:/mot.png);"
                                          "background-position: center center;"

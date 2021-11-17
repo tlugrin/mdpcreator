@@ -4,6 +4,6 @@ Type=Application
 Terminal=false
 Name=MDPCreator
 Comment=Password Generator
-Icon=pics/MDPIcon.ico
+Icon=/usr/share/pixmaps/MDPIcon.ico
 Exec=mdpcreator
 Categories=Utility;Security;Qt
