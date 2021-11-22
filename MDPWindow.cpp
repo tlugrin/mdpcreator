@@ -52,34 +52,34 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
 
     // drop-down list: 'level of security'
     QVBoxLayout* securityLayout = new QVBoxLayout;
-    mdpSecurityLabel = new QLabel("Jeu de caractères/dictionnaire :", this);
+    mdpSecurityLabel = new QLabel(tr("Jeu de caractères/dictionnaire :"), this);
     mdpSecurity = new QComboBox(this);
     QIcon lowIcon(":/low.png");
     QIcon midIcon(":/mid.png");
     QIcon highIcon(":/high.png");
     QIcon veryHighIcon(":/vhigh.png");
     QIcon veryHighEasyIcon(":/vhigheasy.png");
-    mdpSecurity->addItem(lowIcon, "Restreint");
-    mdpSecurity->addItem(midIcon, "Moyen");
-    mdpSecurity->addItem(highIcon, "Grand");
-    mdpSecurity->addItem(veryHighIcon, "Très grand");
-    mdpSecurity->addItem(veryHighEasyIcon, "Immense et facile à retenir");
+    mdpSecurity->addItem(lowIcon, tr("Restreint"));
+    mdpSecurity->addItem(midIcon, tr("Moyen"));
+    mdpSecurity->addItem(highIcon, tr("Grand"));
+    mdpSecurity->addItem(veryHighIcon, tr("Très grand"));
+    mdpSecurity->addItem(veryHighEasyIcon, tr("Immense et facile à retenir"));
     mdpSecurity->setIconSize(QSize(48,48));
     securityLayout->addWidget(mdpSecurityLabel);
     securityLayout->addWidget(mdpSecurity);
 
     // spin box: length of password
     QVBoxLayout* lengthLayout = new QVBoxLayout;
-    mdpLengthLabel = new QLabel("Longueur du mot de passe :", this);
+    mdpLengthLabel = new QLabel(tr("Longueur du mot de passe :"), this);
     mdpLength = new QSpinBox(this);
     lengthLayout->addWidget(mdpLengthLabel);
     lengthLayout->addWidget(mdpLength);
 
     // if password with words: choose French or English dictionary
-    mdpLanguage = new QGroupBox("Langue");
-    chooseFrench  = new QRadioButton("Français");
-    chooseEnglish = new QRadioButton("Anglais");
-    chooseGerman = new QRadioButton("Allemand");
+    mdpLanguage = new QGroupBox(tr("Langue"));
+    chooseFrench  = new QRadioButton(tr("Français"));
+    chooseEnglish = new QRadioButton(tr("Anglais"));
+    chooseGerman = new QRadioButton(tr("Allemand"));
     chooseFrench->setChecked(true);
     QVBoxLayout *languageLayout = new QVBoxLayout;
     languageLayout->addWidget(chooseFrench);
@@ -88,12 +88,12 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     mdpLanguage->setLayout(languageLayout);
 
     // button + text field: generate and view password
-    generateMdpButton = new QPushButton("Générer !");
+    generateMdpButton = new QPushButton(tr("Générer !"));
     generateMdpButton->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Expanding);
     changeMode(0);
 
     QVBoxLayout* resultingMdpLayout = new QVBoxLayout;
-    resultingMdp = new QLabel("Mot de passe généré :", this);
+    resultingMdp = new QLabel(tr("Mot de passe généré :"), this);
     resultingMdpEdit = new QLineEdit(this);
     resultingMdpEdit->setReadOnly(true);
     resultingMdpLayout->addWidget(resultingMdp);
@@ -107,10 +107,10 @@ MDPWindow::MDPWindow(QWidget* parent) : QMainWindow(parent)
     infosFrame->setMidLineWidth(2);
     QGridLayout* infosSplitLayout = new QGridLayout;
     // fixed labels and dynamically updated infos
-    QLabel* attemptsLabel = new QLabel("Nombre moyen de tentatives : ");
-    QLabel* timeToBreakLabel = new QLabel("Durée moyenne d'une attaque : ");
-    QLabel* bitEntropyLabel = new QLabel("Entropie : ");
-    QLabel* assessmentLabel = new QLabel("Qualité : ");
+    QLabel* attemptsLabel = new QLabel(tr("Nombre moyen de tentatives :") + " ");
+    QLabel* timeToBreakLabel = new QLabel(tr("Durée moyenne d'une attaque :") + " ");
+    QLabel* bitEntropyLabel = new QLabel(tr("Entropie :") + " ");
+    QLabel* assessmentLabel = new QLabel(tr("Qualité : ") + " ");
     resultingAttempts = new QLabel("     ");
     resultingTimeToBreak = new QLabel("     ");
     resultingBitEntropy = new QLabel("");
@@ -218,38 +218,39 @@ void MDPWindow::updateSecurityInfos()
     double nAttempts = qPow(classSize,mdpLength->value())/2;// cf. birthday paradox
     int entropy = qFloor(log2(nAttempts));
     double breaktime = nAttempts / PASSWORDS_PER_SEC;
-    QString timeUnit="secondes";
-    QString assessment="excellente";
+    QString timeUnit=tr("secondes");
+    QString assessment=tr("excellente", "quality assessment");
     const double year = 365 * 24 * 60 * 60;
     if (breaktime < year) {
-        assessment = "basse";
+        assessment = tr("basse", "quality assessment");
         if (breaktime > 24 * 60 * 60) {
             breaktime /= 24 * 60 * 60;
-            timeUnit = "jours";
+            timeUnit = tr("jours");
         } else if (breaktime > 60 * 60) {
             breaktime /= 60 * 60;
-            timeUnit = "heures";
+            timeUnit = tr("heures");
         } else if (breaktime > 60) {
             breaktime /= 60;
-            timeUnit = "minutes";
+            timeUnit = tr("minutes");
         }
     } else if (breaktime < 1000*year) {
-        assessment = "bonne";
+        assessment = tr("bonne", "quality assessment");
         breaktime = breaktime / year;
-        timeUnit = "années";
+        timeUnit = tr("années");
     } else {
         breaktime = breaktime / year;
-        timeUnit = "années";
+        timeUnit = tr("années");
     }
 
     // convert 'e' notation to '×10' notation and remove leading zeroes in exponent
     QString nAttemptsTxt = QLocale(QLocale::French).toString(nAttempts,'g',2);
     nAttemptsTxt.replace(QRegExp("e\\+0?([1-9][0-9]*)$"), "×10<sup>\\1</sup>");
     resultingAttempts->setText(nAttemptsTxt);
-    QString breaktimeMsg = (timeUnit == "années") & (breaktime > 1e6) ?
-                "> 1 mio" : QLocale(QLocale::French).toString((int)breaktime);
+    QString breaktimeMsg = (timeUnit == tr("années")) & (breaktime > 1e6) ?
+                tr("> 1 mio", "larger than one million (years)") :
+                QLocale(QLocale::French).toString((int)breaktime);
     resultingTimeToBreak->setText(breaktimeMsg + " " + timeUnit);
-    resultingBitEntropy->setText(QString::number(entropy) + " bits");
+    resultingBitEntropy->setText(QString::number(entropy) + " " + tr("bits"));
     resultingAssessment->setText(assessment);
 }
 
@@ -258,7 +259,7 @@ void MDPWindow::changeMode(int index)
     if(index < 4){
         // avoid resetting spinbox when changing between similar options
         if (mdpLanguage->isEnabled()) {
-            mdpLength->setSuffix(" caractères");
+            mdpLength->setSuffix(" " + tr("caractères"));
             mdpLength->setRange(5,35);
             mdpLength->setValue(10);
             mdpLanguage->setDisabled(true);
@@ -356,19 +357,19 @@ unsigned int MDPWindow::findCharClass(const unsigned int &i) const
 }
 
 void MDPWindow::initialiseMenuBar(){
-    aboutMDPCreatorAct = new QAction("À propos de &MPDCreator...", this);
-    aboutQtAct         = new QAction("À propos de &Qt...", this);
+    aboutMDPCreatorAct = new QAction(tr("À propos de &MPDCreator..."), this);
+    aboutQtAct         = new QAction(tr("À propos de &Qt..."), this);
     connect(aboutMDPCreatorAct, SIGNAL(triggered()), this, SLOT(aboutMDPCreator()));
     connect(aboutQtAct, SIGNAL(triggered()), this, SLOT(aboutQt()));
     // build menu
-    aboutMenu = menuBar()->addMenu("À propos");
+    aboutMenu = menuBar()->addMenu(tr("À propos"));
     aboutMenu->addAction(aboutQtAct);
     aboutMenu->addAction(aboutMDPCreatorAct);
 }
 
 void MDPWindow::aboutMDPCreator(){
-QString title = "MDPCreator version 2.2";
-QString text  = "<strong>MDPCreator version 2.2</strong><br/><br/>"
+QString title = tr("MDPCreator version 2.2");
+QString text  = tr("<strong>MDPCreator version 2.2</strong><br/><br/>"
             "Imaginé et créé par Thomas Lugrin © 2014-2021 GPL-2+<br/><br/>"
             "Les figures noir et blanc proviennent de <em>Xinh Studio</em> et sont sous la licence<br/>"
             "<a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 Unported Licence</a>.<br/><br/>"
@@ -385,7 +386,7 @@ QString text  = "<strong>MDPCreator version 2.2</strong><br/><br/>"
             "Les licences respectives sont également disponibles dans les sources de ce programme.<br/><br/>"
             "Les listes francophone et germanophone originales ont été modifiées en les restreignant "
             "aux seules listes de mots, sans les informations supplémentaires (catégorie grammaticale, fréquence) ; "
-            "les doublons apparaissant après cette manipulation ont été éliminés.";
+            "les doublons apparaissant après cette manipulation ont été éliminés.");
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(title);
     msgBox.setText(text);

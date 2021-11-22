@@ -26,3 +26,8 @@ HEADERS  += \
 RESOURCES += \
     ressources.qrc
 
+TRANSLATIONS += \
+    languages/mdpcreatortr_fr.ts \
+    languages/mdpcreatortr_en_GB.ts \
+    languages/mdpcreatortr_en_US.ts \
+    languages/mdpcreatortr_de.ts
